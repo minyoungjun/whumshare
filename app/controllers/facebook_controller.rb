@@ -1,4 +1,3 @@
-#!/bin/env ruby
 # encoding: utf-8
 class FacebookController < ApplicationController
 	require 'xmpp4r_facebook'
@@ -6,8 +5,15 @@ class FacebookController < ApplicationController
   def index
 		if current_user
 			puts User.find(session[:user_id]).oauth_token
+			redirect_to "/product/product_list"
 		end
   end
+  def function
+		if current_user
+			puts User.find(session[:user_id]).oauth_token
+		end
+  end
+
 	def send_message
 		to_id=params[:message_id]
 		id = "-#{User.find(session[:user_id]).uid}@chat.facebook.com"

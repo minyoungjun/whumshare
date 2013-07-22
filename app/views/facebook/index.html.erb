@@ -1,48 +1,46 @@
-<p>메세지 보내기</p>
+<div class="container">
+	<div class="row">
+		<div class="span4">
+			<h2>Whum share</h2>
+		</div>
+		<div class="span8" style="height:80px">
+			<% if current_user %>
+				 <strong><%= current_user.name %></strong>님 환영합니다.
+				<%=link_to "Sign out", signout_path, id: "sign_out", class:"btn" %>
+			<% else %>
+				<form class="form-horizontal" method="post">
+					<div class="row-fluid">
+						<div class="span4">
+							<label>Facebook ID</label>
+							<input type="text" class="input-medium">
+						</div>
+						<div class="span4">
+							<label>Facebook Password<br></label>
+							<input type="text" class="input-medium">
+						</div>
+						<div class="span4">
+							<%= link_to "로그인", "/auth/facebook", id: "sign_in", class:"btn" %>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span6">
+							<label class="checkbox" for="checkbox">
+								<input type="checkbox" value="true" id="checkbox" name="checkbox">
+								<span>로그인 유지하기</span>
+							</label>
+						</div>
+						<div class="span6">
+							<a href="#">비밀번호를 잊으셨나요?</a>
+						</div>
+					</div>
+				</form>
+			<% end %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span12">
+			<img src="https://app.divshot.com/img/placeholder-100x100.gif" width="100%" height="100%">
+		</div>
+	</div>
+</div>
 
-<input type="text" id="message_id" placeholder="id를 입력하세요.">
-<input type="text" id="message" placeholder="메세지를 입력하세요.">
-<input type="button" id="facebook_send" value="보내기">
-
-<p>포스팅 남기기</p>
-<input type="text" id="post" placeholder="포스팅할 내용을 입력하세요.">
-<input type="button" id="facebook_post" value="보내기">
-
-
-<script>
-$(function(){
-	$("#facebook_send").click(function(){
-		var message_id= $('#message_id').val();
-		var message= $('#message').val();
-
-		$.ajax({
-			url: "/send.json",
-			type: "POST",
-			data: {
-				message : message,
-				message_id : message_id
-			},
-			success: function(data) {
-				alert(data.msg);
-				$("message").val("");
-			}
-		});
-
-	})
-	$("#facebook_post").click(function(){
-		var message= $('#post').val();
-		$.ajax({
-			url: "/post.json",
-			type: "POST",
-			data: {
-				message : message
-			},
-			success: function(data) {
-				alert(data.msg);
-				$("#post").val("");
-			}
-		});
-
-	})
-});
-</script>

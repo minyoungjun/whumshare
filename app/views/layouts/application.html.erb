@@ -1,27 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Cinematron</title>
+    <title>Whum Share</title>
     <%= stylesheet_link_tag    "application", media: "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tag %>
   </head>
   <body>
-    <div id="container">
-      <div id="user_nav">
-        <% if current_user %>
-          Signed in as <strong><%= current_user.name %></strong>!
-          <%= link_to "Sign out", signout_path, id: "sign_out" %>
-        <% else %>
-          <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
-        <% end %>
-      </div>
+	<div class="container">
+		<div class="row-fluid">
+	<%########################header#################%>
+			<%if params[:action]!="index"%>
+				<%=render :partial=>'/layouts/header_main', :locals=>{:current_user=>current_user}%>  
+			<%end%>
+		</div>
 
-      <% flash.each do |name, msg| %>
-        <%= content_tag :div, msg, id: "flash_#{name}" %>
-      <% end %>
-      <%= yield %>
+		<div class="row-fluid">
+	<%########################sidebar#################%>
+			<div class="span3" style="background-color:grey">
+				<%case params[:controller]%>
+				<%when "product"%>
+					<%=render :partial=>"/product/side_category"%>
+				<%when "chat"%>
+					<%=render :partial=>"/chat/side_list"%>
+				<%end%>
+			</div>
 
-    </div>
+	<%########################body#################%>
+			<div class="span9">
+				<%= yield %>
+			</div>
+		</div>
+
+		<div class="row-fluid">
+			<%=render :partial=>'/layouts/footer_main'%>
+		</div>
+
   </body>
 </html>
