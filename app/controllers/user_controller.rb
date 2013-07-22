@@ -12,5 +12,12 @@ class UserController < ApplicationController
   end
 
   def basket
+
+	end
+  def my_buy_product
+
+	end
+  def my_sell_product
+
 	end
 end

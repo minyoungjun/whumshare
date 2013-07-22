@@ -1,21 +1,36 @@
 <div class="row-fluid">
 	<div class="span3">
-		<h3>Whum Share</h3>
+		<h3><a href="/product/product_list">Whum Share</a></h3>
 	</div>
 	<div class="span6">
-		<span class="badge"><img src="https://app.divshot.com/img/placeholder-100x100.gif" width="30">42</span>
-		<span class="badge"><img src="https://app.divshot.com/img/placeholder-100x100.gif" width="30">42</span>
-		<span class="badge"><img src="https://app.divshot.com/img/placeholder-100x100.gif" width="30">42</span>
+
+		<a href="/friend/friend_product">
+			<span class="badge">
+				<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="friends" width="30">42
+			</span>
+		</a>
+		<a href="/chat/chat_message">
+			<span class="badge">
+				<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="chat" width="30">42
+			</span>
+		</a>
+		<a href="/notification/all_noti">
+			<span class="badge">
+				<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="status" width="30">42
+			</span>
+		</a>
 	</div>
 	<div class="span3">
-		<a class="btn"><%=current_user.name%></a>
+		<a href="/user/my_info" class="btn"><%=current_user.name%></a>
+
+		<%=link_to "Sign out", signout_path, id: "sign_out", class:"btn" %>
 	</div>
 </div>
 <div class="row-fluid">
 	<div class="span6">
 		<form class="navbar-search">
-			<input type="text" class="search-query" placeholder="Search...">
-			<a class="btn">search</a><a class="btn">+</a>
+			<input type="text" class="search-query" placeholder="검색어를 입력하세요.">
+			<a class="btn">검색</a><a class="btn">+</a>
 		</form>
 	</div>
 	<div class="span6">
