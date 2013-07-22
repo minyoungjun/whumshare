@@ -1,0 +1,48 @@
+<p>메세지 보내기</p>
+
+<input type="text" id="message_id" placeholder="id를 입력하세요.">
+<input type="text" id="message" placeholder="메세지를 입력하세요.">
+<input type="button" id="facebook_send" value="보내기">
+
+<p>포스팅 남기기</p>
+<input type="text" id="post" placeholder="포스팅할 내용을 입력하세요.">
+<input type="button" id="facebook_post" value="보내기">
+
+
+<script>
+$(function(){
+	$("#facebook_send").click(function(){
+		var message_id= $('#message_id').val();
+		var message= $('#message').val();
+
+		$.ajax({
+			url: "/send.json",
+			type: "POST",
+			data: {
+				message : message,
+				message_id : message_id
+			},
+			success: function(data) {
+				alert(data.msg);
+				$("message").val("");
+			}
+		});
+
+	})
+	$("#facebook_post").click(function(){
+		var message= $('#post').val();
+		$.ajax({
+			url: "/post.json",
+			type: "POST",
+			data: {
+				message : message
+			},
+			success: function(data) {
+				alert(data.msg);
+				$("#post").val("");
+			}
+		});
+
+	})
+});
+</script>
