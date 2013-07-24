@@ -14,3 +14,20 @@
 //= require jquery_ujs
 //= require_tree .
 
+function category_list(id){ 
+  $.ajax({
+    url: "/sessions/category.json",
+    type: "POST",
+    data: {
+      category_id: id
+    },
+    success: function(data) {
+      if(data.error_code==0){
+				$(location).attr('href',"/product/product_list"); 
+      }else{
+        alert(data.error_msg);
+      }
+    }
+  });
+
+}

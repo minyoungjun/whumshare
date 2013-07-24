@@ -35,9 +35,9 @@ ActiveRecord::Schema.define(:version => 20130722022255) do
 
   create_table "categories", :force => true do |t|
     t.string   "uplevel_id",   :default => "0"
-    t.string   "uplevel_list"
-    t.string   "name"
-    t.integer  "count"
+    t.string   "uplevel_list", :default => ""
+    t.string   "name",                          :null => false
+    t.integer  "count",        :default => 0
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
   end
@@ -56,11 +56,11 @@ ActiveRecord::Schema.define(:version => 20130722022255) do
 
   create_table "evaluations", :force => true do |t|
     t.integer  "user_id"
-    t.boolean  "is_good"
+    t.integer  "evalutation"
     t.boolean  "is_seller"
     t.text     "comment"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "my_searches", :force => true do |t|
@@ -110,15 +110,19 @@ ActiveRecord::Schema.define(:version => 20130722022255) do
     t.integer  "age"
     t.boolean  "is_girl"
     t.string   "thumb_img"
-    t.boolean  "maintain_login"
-    t.string   "account_bank"
-    t.string   "account_number"
-    t.string   "address_zip_code"
-    t.string   "address_detail"
-    t.string   "phone_number"
-    t.string   "home_number"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.integer  "friend_count",     :default => 0
+    t.boolean  "maintain_login",   :default => false
+    t.string   "account_bank",     :default => ""
+    t.string   "account_number",   :default => ""
+    t.string   "address_zip_code", :default => ""
+    t.string   "address_detail",   :default => ""
+    t.string   "phone_number",     :default => ""
+    t.string   "home_number",      :default => ""
+    t.integer  "good_count",       :default => 0
+    t.integer  "bad_count",        :default => 0
+    t.integer  "trade_count",      :default => 0
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
 end

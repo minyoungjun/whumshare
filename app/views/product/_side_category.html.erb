@@ -1,9 +1,29 @@
-<div class="row-fluid">
-	<div class="span12">
-		<ul class="nav-header">List header
-			<li>Item 1</li>
-			<li>Item 2</li>
-			<li>Item 3</li>
-		</ul>
-	</div>
+<div class="accordion" id="accordion">
+	<%categories.select{|c| c.uplevel_id.to_i==0}.each do |category|%>
+		<div class="accordion-group">
+			<div class="accordion-heading">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=category.id%>" onclick="category_list(<%=category.id%>);">
+					<span id="category<%=category.id%>"><%=category.name%></span>
+				</a>
+			</div>
+			<div id="collapse<%=category.id%>" class="accordion-body collapse">
+				<div class="accordion-inner">
+					<%categories.select{|c| c.uplevel_id.to_i==category.id.to_i}.each do |c|%>	
+						<li><a href="#" onclick="category_list(<%=c.id%>);" >
+						<span id="category<%=c.id%>"><%=c.name%></span>
+					</a></li>
+
+					<%end%>
+				</div>
+			</div>
+		</div>
+	<%end%>
 </div>
+<script>
+$(function(){
+	$("#category"+<%=current_category.id%>).addClass("btn-primary");
+	<%uplevel_category.each do |uc|%>
+		$("#collapse"+<%=uc%>).addClass("in");
+	<%end%>
+});
+</script>
