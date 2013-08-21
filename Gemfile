@@ -12,6 +12,8 @@ gem 'jquery-fileupload-rails'
 gem 'paperclip'
 gem 'twitter-bootstrap-rails'
 
+#search
+gem 'thinking-sphinx', '3.0.0'
 
 
 # Bundle edge Rails instead:

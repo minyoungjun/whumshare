@@ -162,6 +162,8 @@
 <!-- The template to display files available for download -->
 <script id="template-download" type="text/x-tmpl">
   {%
+
+	download_amount++;
 	for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download fade">
       {% if (file.error) { %}
@@ -179,9 +181,8 @@
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
         <td colspan="2"></td>
 				{% <%#대표 이미지와 상품을 연결%>
-				if(upload_amount==represent_number){
+				if(download_amount==represent_number){
 						product_id=$("#upload_product_id").val();
-						alert(product_id+"/"+file.id);
 						sell_represent_image(product_id,file.id);
 					}
 				%}
@@ -189,8 +190,7 @@
 			
 		</tr>
 	{% }
-	upload_amount--;
-	if(upload_amount==0){
+	if(upload_amount==download_amount){
 		$(location).attr('href',"/product/product_list"); 
 	}
 		%}
@@ -198,6 +198,7 @@
 
 <script type="text/javascript" charset="utf-8">
 	upload_amount=0;
+	download_amount=0;
 	represent_number=0;
   $(function () {
       // Initialize the jQuery File Upload widget:

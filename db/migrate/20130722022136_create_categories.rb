@@ -3,6 +3,7 @@ class CreateCategories < ActiveRecord::Migration
     create_table :categories do |t|
 			t.string	:uplevel_id, :default=>1
 			t.string	:name, :null=>false
+			t.string	:end, :default=>true
 			t.integer	:count, :default=>0
       t.timestamps
     end

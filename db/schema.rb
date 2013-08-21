@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20130817130025) do
   create_table "categories", :force => true do |t|
     t.string   "uplevel_id", :default => "1"
     t.string   "name",                        :null => false
+    t.string   "end",        :default => "1"
     t.integer  "count",      :default => 0
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false

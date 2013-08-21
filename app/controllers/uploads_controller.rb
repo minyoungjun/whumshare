@@ -4,13 +4,14 @@ class UploadsController < ApplicationController
   # GET /uploads
   # GET /uploads.json
   def index
-	@categories=Category.all
-		puts @categories
+	@categories=Category.where(:end=>true)
 		if !session[:category_id].nil?
-			@current_category=Category.find(session[:category_id])
-		else
-			@current_category=Category.find(1)
+			current_category=Category.where(:id=>session[:category_id], :end=>true).first
 		end
+		if current_category.nil? || session[:category_id].nil?
+			current_category=Category.find_by_end(true)
+		end
+		@current_category=current_category
 		puts "current!!!#{@current_category}"
 
 		@methods=Option.where(:type_name=>"method").all
@@ -51,10 +52,6 @@ class UploadsController < ApplicationController
   # POST /uploads
   # POST /uploads.json
   def create
-		puts "params!!!!:#{params.inspect}"
-
-		puts "upload!!!:#{params[:upload][:upload][0].inspect}"
-		puts "product_id!!!!:#{params[:upload][:product_id]}"
 		@upload = Upload.new(:upload=>params[:upload][:upload][0], :product_id=>params[:upload][:product_id])
     respond_to do |format|
       if @upload.save

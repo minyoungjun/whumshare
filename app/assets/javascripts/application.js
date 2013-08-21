@@ -107,7 +107,7 @@ function sell_product_button(){
 }
 function sell_represent_image(product_id,file_id){ 
   $.ajax({
-    url: "/product/sell_represent_image_json",
+    url: "/product/sell_represent_upload_json",
     type: "POST",
     data: {
 			product_id : product_id,

@@ -59,6 +59,7 @@ class ProductController < ApplicationController
 	end
 	def product_modal_json
 		product=Product.find(params[:product_id])
+		uploads=Upload.get_files_url(product.uploads)
 		method=Option.get_name("method",product.method)
 		status=Option.get_name("status",product.status)
 		puts "method:#{method}" 
@@ -67,6 +68,7 @@ class ProductController < ApplicationController
       :error_code => 0,
       :error_msg => "",
 			:product=>product,
+			:uploads=>uploads,
 			:method=>method,
 			:status=>status
     }   
@@ -89,7 +91,7 @@ class ProductController < ApplicationController
 	def my_search
 
 	end
-	def sell_represent_image_json
+	def sell_represent_upload_json
 		product_id=params[:product_id]
 		product=Product.find(product_id)
 		product.represent_upload_id=params[:upload_id];

@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-   attr_accessible :name,:uplevel_id, :uplevel_list, :count
+   attr_accessible :name,:uplevel_id, :uplevel_list, :count, :end
 
 	 def uplevel
 	 	up_list=Array.new
