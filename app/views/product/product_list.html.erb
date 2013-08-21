@@ -1,49 +1,50 @@
-<div class="well">
-	<div class="row-fluid">
-		<a class="btn" href="/product/seller_info" >
-			<img src="https://app.divshot.com/img/placeholder-100x100.gif" width="30">ID/age/gender
-		</a> 
-		<div class="row-fluid" id="product_modal_button">
-			<div class="span2">
-				<img src="https://app.divshot.com/img/placeholder-100x100.gif">
-			</div>
-			<div class="span10">
-				<p>product name/ price/ buy_year/ place/ method</p>
-			</div>
-		</div>
-	</div>
+<a class="btn pull-right" href="/uploads">글쓰기</a>
+<div id="product_page" class="row-fluid">
 </div>
- 
-	<a href="#product_modal" role="button" class="btn" data-toggle="modal">
-<a class="btn pull-right" href="/product/sell_product">글쓰기</a>
-
 
 <!-- Modal -->
 <div id="product_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">product_name</h3>
-  </div>
-  <div class="modal-body">
-		<div class="span12">
-			product name<br>
-				price<br>
-				buy_year<br>
-				place<br>
-				method<br>
-				comment<br>
-				<img src="https://app.divshot.com/img/placeholder-100x100.gif">
-		</div>
-  <div class="modal-footer">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">product_name</h3>
+	</div>
+	<div class="modal-body">
+		<div id="modal_content" class="span12">
+						</div>
+	</div>
+	<div class="modal-footer">
 		<a class="btn">장바구니</a>
-		<a class="btn">메세지</a></p>
-  </div>
+		<a class="btn">메세지</a>
+	</div>
 </div>
 <script>
 $(function(){
-
-	$("#product_modal_button").click(function(){
-			$('#product_modal').modal("show"); 
-	});
+	category_list(1);
 });
+
+function product_modal_button(id){
+  $.ajax({
+    url: "/product/product_modal_json.json",
+    type: "POST",
+    data: {
+      product_id: id
+    },
+    success: function(data) {
+      if(data.error_code==0){
+				$("#modal_content").text(
+					data.product.name+"/"+
+					data.product.price+"/"+
+					data.product.buy_year+"년 "+ data.product.buy_month+"월/"+
+					data.method+"/"+
+					data.status+"/"+
+					data.product.comment
+				);
+
+				$('#product_modal').modal("show"); 
+      }else{
+        alert(data.error_msg);
+      }
+    }
+  });
+}
 </script>

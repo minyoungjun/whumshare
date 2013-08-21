@@ -13,5 +13,13 @@ class Category < ActiveRecord::Base
 		end
 		return up_list
 	end
+	def downlevel downlist
+		downlist.push(self.id)
+		downs=Category.where(:uplevel_id=>self.id)
+		downs.each do |down|
+			down.downlevel(downlist)
+		end
+		return downlist
+	end
 			
 end

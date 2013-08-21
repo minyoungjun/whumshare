@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130722022255) do
+ActiveRecord::Schema.define(:version => 20130817130025) do
 
   create_table "address_zips", :force => true do |t|
     t.string   "code"
@@ -34,12 +34,11 @@ ActiveRecord::Schema.define(:version => 20130722022255) do
   end
 
   create_table "categories", :force => true do |t|
-    t.string   "uplevel_id",   :default => "0"
-    t.string   "uplevel_list", :default => ""
-    t.string   "name",                          :null => false
-    t.integer  "count",        :default => 0
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.string   "uplevel_id", :default => "1"
+    t.string   "name",                        :null => false
+    t.integer  "count",      :default => 0
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
   create_table "chats", :force => true do |t|
@@ -97,8 +96,19 @@ ActiveRecord::Schema.define(:version => 20130722022255) do
     t.text     "comment"
     t.boolean  "on_timeline"
     t.integer  "status"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "represent_upload_id", :default => 0
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  create_table "uploads", :force => true do |t|
+    t.integer  "product_id",          :default => 0
+    t.string   "upload_file_name"
+    t.string   "upload_content_type"
+    t.integer  "upload_file_size"
+    t.datetime "upload_updated_at"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -107,8 +117,8 @@ ActiveRecord::Schema.define(:version => 20130722022255) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.integer  "age"
-    t.boolean  "is_girl"
+    t.integer  "birthday"
+    t.integer  "gender",           :default => 0
     t.string   "thumb_img"
     t.integer  "friend_count",     :default => 0
     t.boolean  "maintain_login",   :default => false

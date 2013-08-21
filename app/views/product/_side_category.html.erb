@@ -1,29 +1,43 @@
-<div class="accordion" id="accordion">
-	<%categories.select{|c| c.uplevel_id.to_i==0}.each do |category|%>
-		<div class="accordion-group">
-			<div class="accordion-heading">
-				<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=category.id%>" onclick="category_list(<%=category.id%>);">
-					<span id="category<%=category.id%>"><%=category.name%></span>
-				</a>
-			</div>
-			<div id="collapse<%=category.id%>" class="accordion-body collapse">
-				<div class="accordion-inner">
-					<%categories.select{|c| c.uplevel_id.to_i==category.id.to_i}.each do |c|%>	
-						<li><a href="#" onclick="category_list(<%=c.id%>);" >
-						<span id="category<%=c.id%>"><%=c.name%></span>
-					</a></li>
-
-					<%end%>
-				</div>
-			</div>
-		</div>
-	<%end%>
+<div class="accordion" id="inner_1"><%#전체%>
 </div>
+
 <script>
 $(function(){
-	$("#category"+<%=current_category.id%>).addClass("btn-primary");
-	<%uplevel_category.each do |uc|%>
-		$("#collapse"+<%=uc%>).addClass("in");
-	<%end%>
+	$("#category_"+<%=current_category.id%>).addClass("btn-primary");
 });
 </script>
+<script>
+$(function(){
+	$.ajax({
+		url: "/product/category.json",
+		type: "POST",
+		success: function(data) {
+			category=data.category;
+			//make_accordion("sidemenu_accordion",category[0].id,category[0].name);
+			for(i=1;i<category.length;i++){
+				make_accordion("inner_"+category[i].uplevel_id,category[i].id,category[i].name,category[i].uplevel_id);
+			}
+		}
+	});
+});
+
+function make_accordion(target,id, name, uplevel_id){
+	$("#toggle_"+uplevel_id).attr("data-toggle","collapse");
+	$("#toggle_"+uplevel_id).attr("href","#collapse_"+uplevel_id);
+	accordion_text="";
+	accordion_text+="<div class='accordion-group'>"
+	accordion_text+=	"<div class='accordion-heading'>"
+	accordion_text+=		"<a class='accordion-toggle collapsed' id='toggle_"+id+"'  data-parent='#accordion'  onclick='category_list("+id+");'>"
+	accordion_text+=			"<span id='category_"+id+"'>"+name+"</span>"
+	accordion_text+=			"<span id='category_fold_"+id+"' style='float:right'>+</span>"
+	accordion_text+=		"</a>"
+	accordion_text+=	"</div>"
+	accordion_text+=	"<div id='collapse_"+id+"' class='accordion-body collapse'>"
+	accordion_text+=		"<div id='inner_"+id+"' class='accordion-inner'>"
+	accordion_text+=		"</div>"
+	accordion_text+=	"</div>"
+	accordion_text+="</div>"
+	$("#"+target).append(accordion_text);
+}
+</script>
+

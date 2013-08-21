@@ -4,22 +4,38 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 development:
-  adapter: sqlite3
-  database: db/development.sqlite3
+  adapter: mysql2   #사용할 database
+  encoding: utf8
+  reconnect: false
+  database: whumshare_db  # 실제 mysql에 생성되는 database 이름
   pool: 5
   timeout: 5000
+  username: root    # mysql에 접속할 id와 password
+  password: tntkd1
+  socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  adapter: sqlite3
-  database: db/test.sqlite3
+  adapter: mysql2   #사용할 database
+  encoding: utf8
+  reconnect: false
+  database: whumshare_db  # 실제 mysql에 생성되는 database 이름
   pool: 5
   timeout: 5000
+  username: root    # mysql에 접속할 id와 password
+  password: tntkd1
+  socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
+
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: mysql2   #사용할 database
+  encoding: utf8
+  reconnect: false
+  database: whumshare_db  # 실제 mysql에 생성되는 database 이름
   pool: 5
   timeout: 5000
+  username: root    # mysql에 접속할 id와 password
+  password: tntkd1
+  socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)

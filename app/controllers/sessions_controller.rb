@@ -3,6 +3,8 @@ class SessionsController < ApplicationController
   def create
     user = User.from_omniauth(env["omniauth.auth"])
     session[:user_id] = user.id
+		session[:category_id]=1 if session[:category_id].nil?
+		puts "category_id!!:#{session[:category_id]}";
     redirect_to root_url
   end
 
@@ -13,8 +15,6 @@ class SessionsController < ApplicationController
 
   def category
     session[:category_id]=params[:category_id].to_i
-		puts "????#{params[:category_id]}"
-		puts "????#{session[:category_id]}"
     data = { 
       :error_code => 0,
       :error_msg => "",

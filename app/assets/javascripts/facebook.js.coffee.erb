@@ -13,7 +13,7 @@ window.fbAsyncInit = ->
   $('#sign_in').click (e) ->
     e.preventDefault()
     FB.login ((response) ->
-      window.location = '/auth/facebook/callback' if response.authResponse), scope: "publish_stream,read_mailbox,xmpp_login"
+      window.location = '/auth/facebook/callback' if response.authResponse), scope: "user_birthday, publish_stream, read_mailbox, xmpp_login, ads_management"
 
   $('#sign_out').click (e) ->
     FB.getLoginStatus (response) ->

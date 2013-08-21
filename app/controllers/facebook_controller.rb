@@ -3,8 +3,9 @@ class FacebookController < ApplicationController
 	require 'xmpp4r_facebook'
 
   def index
-		if current_user
+	if current_user
 			puts User.find(session[:user_id]).oauth_token
+			
 			redirect_to "/product/product_list"
 		end
   end
@@ -39,9 +40,10 @@ class FacebookController < ApplicationController
 
 	end
 	def post_feed
-	    fb_user ||= FbGraph::User.me(User.find(session[:user_id]).oauth_token)
-			puts fb_user
-			puts "!!!!!!!!!!"
+	    fb_user = FbGraph::User.me(User.find(session[:user_id]).oauth_token)
+	    fb_friend = fb_user.friends
+			#puts "friend!!!#{fb_friend.inspect}"
+
 			fb_user.feed!(:message => params[:message])
 
 			data = { 

@@ -12,6 +12,7 @@ class CreateProducts < ActiveRecord::Migration
 			t.text		:comment
 			t.boolean	:on_timeline
 			t.integer :status
+			t.integer :represent_upload_id, :default=>0 #대표 이미지 번호
 
       t.timestamps
     end

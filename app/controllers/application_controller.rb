@@ -1,5 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+	before_filter :category_session
+	def category_session
+		if(session[:category_id].nil?)
+			session[:category_id]=1
+		end
+	end
+
 private
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -21,7 +28,7 @@ private
 	end	
 	def current_category
 		if session[:category_id].nil? || session[:category_id]==0
-			@current_category=0
+			@current_category=Category.find(1)
 		else
 			@current_category=Category.find(session[:category_id])
 		end

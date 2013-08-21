@@ -1,18 +1,55 @@
 <div class="row-fluid">
 	<div class="span12">
-		<ul class="nav-header">판매중인 친구
-			<li>Item 1</li>
-			<li>Item 2</li>
-			<li>Item 3</li>
+		<ul id="sell_friends" class="nav-header">판매중인 친구
 		</ul>
 	</div>
 </div>
 <div class="row-fluid">
 	<div class="span12">
-		<ul class="nav-header">가입한 친구
-			<li>Item 1</li>
-			<li>Item 2</li>
-			<li>Item 3</li>
+		<ul id="join_friends" class="nav-header">가입한 친구
 		</ul>
 	</div>
 </div>
+<div class="row-fluid">
+	<div class="span12">
+		<ul id="unjoin_friends" class="nav-header">가입하지 않은 친구
+		</ul>
+	</div>
+</div>
+<script>
+$(function(){
+	$.ajaxSetup({
+	    async: true
+	});
+	$.ajax({
+    url: "/friend/friends_list.json",
+    type: "POST",
+    success: function(data) {
+			sell_friends_list=data.sell_friends_list;
+			join_friends_list=data.join_friends_list;
+			unjoin_friends_list=data.unjoin_friends_list;
+			for(i=0;i<sell_friends_list.length;i++){
+				add_friend("sell_friends",sell_friends_list[i].name,sell_friends_list[i].id);
+			}
+			for(i=0;i<join_friends_list.length;i++){
+				add_friend("join_friends",join_friends_list[i].name,join_friends_list[i].id);
+			}
+			for(i=0;i<unjoin_friends_list.length;i++){
+				add_friend("unjoin_friends",unjoin_friends_list[i].name,unjoin_friends_list[i].id);
+			}
+    }
+  });
+
+
+});
+
+function add_friend(ul_id,name,id){
+	li="<li>";
+	li+=	"<a href=https://www.facebook.com/"+id+">";
+	li+=			"<img src='https://graph.facebook.com/"+id+"/picture'>";
+	li+=		"<span>"+name+"<\/span>";
+	li+=	"<\/a>";
+	li+="<\/li>";
+	$("#"+ul_id).append(li);	
+}
+</script>

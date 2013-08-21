@@ -1,13 +1,23 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
+gem 'therubyracer'
+
 gem "omniauth-facebook", "1.4.0"
 gem 'xmpp4r_facebook'
-gem 'fb_graph', '1.5.4'
+gem 'fb_graph'
+
+#file upload
+gem 'jquery-fileupload-rails'
+gem 'paperclip'
+gem 'twitter-bootstrap-rails'
+
+
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'mysql2'
 
 
 # Gems used only for assets and not required
@@ -22,7 +32,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', "~>2.0.2"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
