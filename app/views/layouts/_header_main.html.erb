@@ -2,54 +2,87 @@
 	<div class="span3">
 		<h3><a href="/product/product_list">Whum Share</a></h3>
 	</div>
-	<div class="span6">
+	<%if current_user%>
+		<div class="span6">
 
-		<a href="/friend/friend_product">
-			<span class="badge">
-				<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="friends" width="30">42
-			</span>
-		</a>
-		<a href="/chat/chat_message">
-			<span class="badge">
-				<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="chat" width="30">42
-			</span>
-		</a>
-		<a href="/notification/all_noti">
-			<span class="badge">
-				<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="status" width="30">42
-			</span>
-		</a>
-	</div>
-	<div class="span3">
-		<a href="/user/my_info" class="btn"><%=current_user.name%></a>
+			<a href="/friend/friend_product">
+				<span class="badge">
+					<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="friends" width="30">42
+				</span>
+			</a>
+			<a href="/chat/chat_message">
+				<span class="badge">
+					<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="chat" width="30">42
+				</span>
+			</a>
+			<a href="/notification/all_noti">
+				<span class="badge">
+					<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="status" width="30">42
+				</span>
+			</a>
+		</div>
+		<div class="span3">
+			<a href="/user/my_info" class="btn"><%=current_user.name%></a>
 
-		<%=link_to "Sign out", signout_path, id: "sign_out", class:"btn" %>
-	</div>
-</div>
-<div class="row-fluid">
-	<div class="span6">
-		<form class="navbar-search">
-			<input type="text" class="search-query" placeholder="검색어를 입력하세요.">
-			<a class="btn" >검색</a>
-			<a class="btn" href="/product/my_search">+</a>
-		</form>
-	</div>
-	<div class="span6">
-		<div class="btn-group pull-right">
-			<a class="btn" data-toggle="dropdown" href="#">나의 검색어</a>
-			<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">    <span class="caret"></span>  </a>
-			<ul class="dropdown-menu">
-				<li>
-					<a href="#">First Link</a>
-				</li>
-				<li>
-					<a href="#">Second Link</a>
-				</li>
-				<li>
-					<a href="#">Third Link</a>
-				</li>
-			</ul>
+			<%=link_to "Sign out", signout_path, id: "sign_out", class:"btn" %>
 		</div>
 	</div>
+	<div class="row-fluid">
+		<div class="span6">
+			<a class="btn" onclick="open_search_modal();" >검색</a>
+			<a class="btn" href="/product/my_search">+</a>
+		</div>
+		<div class="span6">
+			<div class="btn-group pull-right">
+				<a class="btn" data-toggle="dropdown" href="#">나의 검색어</a>
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">    <span class="caret"></span>  </a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="#">First Link</a>
+					</li>
+					<li>
+						<a href="#">Second Link</a>
+					</li>
+					<li>
+						<a href="#">Third Link</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	<%else%>
+		<div class="span3">
+		</div>
+		<div class="span6">
+			<form class="form-horizontal" method="post">
+				<div class="row-fluid">
+					<div class="span4">
+						<label>Facebook ID</label>
+						<input type="text" class="input-medium">
+					</div>
+					<div class="span4">
+						<label>Facebook Password<br></label>
+						<input type="text" class="input-medium">
+					</div>
+					<div class="span4">
+						<%= link_to "로그인", "/auth/facebook", id: "sign_in", class:"btn" %>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span6">
+						<label class="checkbox" for="checkbox">
+							<input type="checkbox" value="true" id="checkbox" name="checkbox">
+							<span>로그인 유지하기</span>
+						</label>
+					</div>
+				</div>
+			</form>
+		</div>
+	<%end%>
 </div>
 
+<script>
+	function open_search_modal(){
+		$("#search_div").show();
+		
+	}
+</script>

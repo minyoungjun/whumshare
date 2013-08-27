@@ -7,6 +7,9 @@
     <%= csrf_meta_tag %>
   </head>
   <body>
+		<%#search form%>
+		<%=render :partial=>'/product/search_div'%>
+
 		<div class="container">
 			<%if params[:controller]!="facebook"%>
 				<div class="row-fluid">

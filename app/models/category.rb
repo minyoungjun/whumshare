@@ -21,5 +21,16 @@ class Category < ActiveRecord::Base
 		end
 		return downlist
 	end
+	def self.end_true session
+		categories=Category.where(:end=>true)
+
+		if !session[:category_id].nil?
+			current_category=Category.where(:id=>session[:category_id], :end=>true).first
+		end
+		if current_category.nil? || session[:category_id].nil?
+			current_category=Category.find_by_end(true)
+		end
+		return [categories,current_category]
+	end
 			
 end

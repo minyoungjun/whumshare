@@ -7,32 +7,22 @@ class ProductController < ApplicationController
 
 		puts "!!!!!!#{@statuses}!!!!!!!!"
   end
-  def sell_product
-		@categories=Category.all
-		puts @categories
-		if !session[:category_id].nil?
-			@current_category=Category.find(session[:category_id])
-		else
-			@current_category=Category.find(1)
-		end
-		puts "current!!!#{@current_category}"
+  def search_category
 
+		@categories,@current_category=Category.end_true(session)
 		@methods=Option.where(:type_name=>"method").all
+		
+		data={
+			categories:@categories,
+			current_category:@current_category,
+			methods:@methods
+		}
+		respond_to do |format|
+      format.json { render :json=> data } 
+    end
+		
   end
-  def sell_product_json
-		product_id=Product.add(params,session)
-
-		data = { 
-      :error_code => 0,
-      :error_msg => "",
-			:product_id => product_id
-    }   
-
-    respond_to do |format|
-      format.json { render :json => data.to_json }
-    end 
-	end
-
+ 
   def product_list
 	end
 	def get_product_list
@@ -91,6 +81,21 @@ class ProductController < ApplicationController
 	def my_search
 
 	end
+
+	def sell_product_json
+		product_id=Product.add(params,session)
+
+		data = { 
+      :error_code => 0,
+      :error_msg => "",
+			:product_id => product_id
+    }   
+
+    respond_to do |format|
+      format.json { render :json => data.to_json }
+    end 
+	end
+
 	def sell_represent_upload_json
 		product_id=params[:product_id]
 		product=Product.find(product_id)
