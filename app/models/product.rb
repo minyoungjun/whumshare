@@ -58,7 +58,7 @@ class Product < ActiveRecord::Base
 		return products_with_option_name
 	end
 
-	def self.search_books(condition)
+	def self.search_products(condition)
 		per_page=12
     products=Product.search(
     :conditions=>{
@@ -66,7 +66,7 @@ class Product < ActiveRecord::Base
 				:place=>"*#{condition[:place]}*",
 				:comment=>"*#{condition[:comment]}*",
       },
-      :order=>:created_at,
+      :order=>'created_at DESC',
 
 			:page => condition[:page],
 			:per_page => per_page

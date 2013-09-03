@@ -81,8 +81,27 @@
 </div>
 
 <script>
+var search_div=false;
 	function open_search_modal(){
 		$("#search_div").show();
-		
+		search_div=true;
 	}
+	$(function(){
+		
+				$("#search_div").show();
+
+				$('#search_name').trigger(jQuery.Event('keypress', {which: 107}));
+
+
+		$(this).keydown(function(evt) {
+			if(search_div==true){
+				if(evt.which==27){
+					$("#search_div").hide();
+					search_div=false;
+				}
+			}
+		});
+	});
+
+
 </script>

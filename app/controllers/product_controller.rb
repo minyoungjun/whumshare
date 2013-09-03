@@ -25,10 +25,12 @@ class ProductController < ApplicationController
  
   def product_list
 	end
+
 	def get_product_list
 		category_id=params[:category_id]
 		downlevel_categories=Category.find(category_id).downlevel([])	
 		products=Product.find_all_by_category_id(downlevel_categories)
+		products.reverse!
 		users=Product.get_users(products)
 		uploads=Product.get_represent_upload_url(products)
 		method=Option.where(:type_name=>"method").all
