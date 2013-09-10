@@ -5,6 +5,7 @@ class Product < ActiveRecord::Base
 	has_many	:buskets
 	has_many	:uploads
 	def self.add(params,session)
+		puts "params! :#{params.inspect}"
 		product=Product.new
 		product.user_id=session[:user_id]
 		product.name= params[:name]	
@@ -58,16 +59,21 @@ class Product < ActiveRecord::Base
 		return products_with_option_name
 	end
 
-	def self.search_products(condition)
+	def self.search_products(condition, categories_id)
+		puts "!@#!@#"
+		puts categories_id.inspect
+		with=Hash.new
+		with[:category_id]=categories_id
 		per_page=12
     products=Product.search(
     :conditions=>{
-				:name=>"*#{condition[:name]}*",
-				:place=>"*#{condition[:place]}*",
-				:comment=>"*#{condition[:comment]}*",
+				:name=>"*aaa*"
+				#:name=>"*#{condition[:name]}*",
+				#:place=>"*#{condition[:place]}*",
+				#:comment=>"*#{condition[:comment]}*",
       },
       :order=>'created_at DESC',
-
+			:with => with,
 			:page => condition[:page],
 			:per_page => per_page
       )

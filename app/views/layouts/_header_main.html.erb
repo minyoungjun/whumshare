@@ -87,12 +87,8 @@ var search_div=false;
 		search_div=true;
 	}
 	$(function(){
-		
-				$("#search_div").show();
-
-				$('#search_name').trigger(jQuery.Event('keypress', {which: 107}));
-
-
+		//$("#search_div").show();
+		$('#search_name').trigger(jQuery.Event('keypress', {which: 107}));
 		$(this).keydown(function(evt) {
 			if(search_div==true){
 				if(evt.which==27){
@@ -102,6 +98,4 @@ var search_div=false;
 			}
 		});
 	});
-
-
 </script>

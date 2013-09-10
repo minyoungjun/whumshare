@@ -29,8 +29,9 @@ class ProductController < ApplicationController
 	def get_product_list
 		category_id=params[:category_id]
 		downlevel_categories=Category.find(category_id).downlevel([])	
-		products=Product.find_all_by_category_id(downlevel_categories)
-		products.reverse!
+		products=Product.search_products(params,downlevel_categories)
+		#products=Product.find_all_by_category_id(downlevel_categories)
+		#products.reverse!
 		users=Product.get_users(products)
 		uploads=Product.get_represent_upload_url(products)
 		method=Option.where(:type_name=>"method").all
@@ -86,7 +87,6 @@ class ProductController < ApplicationController
 
 	def sell_product_json
 		product_id=Product.add(params,session)
-
 		data = { 
       :error_code => 0,
       :error_msg => "",
