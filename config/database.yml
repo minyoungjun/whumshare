@@ -10,8 +10,8 @@ development:
   database: whumshare_db  # 실제 mysql에 생성되는 database 이름
   pool: 5
   timeout: 5000
-  username: root    # mysql에 접속할 id와 password
-  password: tntkd1
+  username: whum  
+  password: tkwkdsl
   socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
   enable_star: 1
   min_infix_len: 1
@@ -26,8 +26,8 @@ test:
   database: whumshare_db  # 실제 mysql에 생성되는 database 이름
   pool: 5
   timeout: 5000
-  username: root    # mysql에 접속할 id와 password
-  password: tntkd1
+  username: whum  
+  password: tkwkdsl
   socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
   enable_star: 1
   min_infix_len: 1
@@ -40,8 +40,8 @@ production:
   database: whumshare_db  # 실제 mysql에 생성되는 database 이름
   pool: 5
   timeout: 5000
-  username: root    # mysql에 접속할 id와 password
-  password: tntkd1
+  username: whum  
+  password: tkwkdsl
   socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
   enable_star: 1
   min_infix_len: 1
