@@ -11,8 +11,8 @@ development:
   pool: 5
   timeout: 5000
   username: whum  
-  password: tkwkdsl
-  socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
+  password: tkwkdsla
+  socket:  /var/run/mysqld/mysqld.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
   enable_star: 1
   min_infix_len: 1
 
@@ -27,8 +27,8 @@ test:
   pool: 5
   timeout: 5000
   username: whum  
-  password: tkwkdsl
-  socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
+  password: tkwkdsla
+  socket:  /var/run/mysqld/mysqld.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
   enable_star: 1
   min_infix_len: 1
 
@@ -41,8 +41,8 @@ production:
   pool: 5
   timeout: 5000
   username: whum  
-  password: tkwkdsl
-  socket: /tmp/mysql.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
+  password: tkwkdsla
+  socket:  /var/run/mysqld/mysqld.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
   enable_star: 1
   min_infix_len: 1
 
