@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :oauth_token
 			
       t.datetime :oauth_expires_at
-			t.integer	:birthday
+			t.datetime :birthday
 			t.integer	:gender,			:default=>0 #1은 여자, 2은 남자, 3는 알 수 없음
 			t.string	:thumb_img
 			t.integer	:friend_count,	:default=>0

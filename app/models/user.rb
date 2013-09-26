@@ -35,7 +35,8 @@ class User < ActiveRecord::Base
       user.uid = auth.uid
       user.name = auth.info.name
 			user.thumb_img = auth.info.image
-			#user.friend_count=user_friend_count
+			user.birthday=Date.strptime(auth.extra.raw_info.birthday,'%m/%d/%Y')
+			user.friend_count=user.get_friends_count
 			case auth.extra.raw_info.gender
 			when "female"
 				user.gender=0
@@ -50,6 +51,12 @@ class User < ActiveRecord::Base
       user.save!
     end
   end
+	def get_friends_count
+		fb_user = FbGraph::User.me(self.oauth_token)
+	  fb_friends = fb_user.friends
+		return fb_friends.size
+
+	end
 	def get_friends_list
 		fb_user = FbGraph::User.me(self.oauth_token)
 	  fb_friends = fb_user.friends

@@ -1,3 +1,6 @@
+==
+rake ts:configure
+configure/development.sphinx.conf 에서 min 어쩌고 밑에 dict=keywords
 == Welcome to Rails
 
 Rails is a web-application framework that includes everything needed to create
