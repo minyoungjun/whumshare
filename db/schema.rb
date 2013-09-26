@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130817130025) do
+ActiveRecord::Schema.define(:version => 20130924165456) do
 
   create_table "address_zips", :force => true do |t|
     t.string   "code"
@@ -43,10 +43,11 @@ ActiveRecord::Schema.define(:version => 20130817130025) do
   end
 
   create_table "chats", :force => true do |t|
-    t.string   "room_number"
-    t.string   "seller_id"
-    t.string   "buyer_id"
-    t.string   "medi_id"
+    t.integer  "room_number"
+    t.integer  "product_id"
+    t.integer  "seller_id"
+    t.integer  "buyer_id"
+    t.integer  "medi_id"
     t.integer  "last_msg_id"
     t.integer  "seller_see_msg_id"
     t.integer  "buyer_see_msg_id"
@@ -61,6 +62,14 @@ ActiveRecord::Schema.define(:version => 20130817130025) do
     t.text     "comment"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "messages", :force => true do |t|
+    t.integer  "chat_id"
+    t.integer  "user_id"
+    t.string   "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "my_searches", :force => true do |t|
@@ -118,7 +127,7 @@ ActiveRecord::Schema.define(:version => 20130817130025) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.integer  "birthday"
+    t.datetime "birthday"
     t.integer  "gender",           :default => 0
     t.string   "thumb_img"
     t.integer  "friend_count",     :default => 0

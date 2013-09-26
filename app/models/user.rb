@@ -36,7 +36,6 @@ class User < ActiveRecord::Base
       user.name = auth.info.name
 			user.thumb_img = auth.info.image
 			user.birthday=Date.strptime(auth.extra.raw_info.birthday,'%m/%d/%Y')
-			user.friend_count=user.get_friends_count
 			case auth.extra.raw_info.gender
 			when "female"
 				user.gender=0
@@ -48,6 +47,8 @@ class User < ActiveRecord::Base
 
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+
+			user.friend_count=user.get_friends_count
       user.save!
     end
   end
@@ -55,7 +56,6 @@ class User < ActiveRecord::Base
 		fb_user = FbGraph::User.me(self.oauth_token)
 	  fb_friends = fb_user.friends
 		return fb_friends.size
-
 	end
 	def get_friends_list
 		fb_user = FbGraph::User.me(self.oauth_token)

@@ -3,6 +3,7 @@ class ProductController < ApplicationController
 		user=User.find(session[:user_id])
 		@friend_count=user.friend_count
 		@gender=Option.get_name("gender",user.gender)
+		@age=Date.today().year-user.birthday.year+1#만 나이를 하려면 +1을 없앨 것.
 		@sell_products=Product.with_option_name(user.products)
 
 		puts "!!!!!!#{@statuses}!!!!!!!!"

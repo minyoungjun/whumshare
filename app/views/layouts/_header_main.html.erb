@@ -54,27 +54,7 @@
 		</div>
 		<div class="span6">
 			<form class="form-horizontal" method="post">
-				<div class="row-fluid">
-					<div class="span4">
-						<label>Facebook ID</label>
-						<input type="text" class="input-medium">
-					</div>
-					<div class="span4">
-						<label>Facebook Password<br></label>
-						<input type="text" class="input-medium">
-					</div>
-					<div class="span4">
-						<%= link_to "로그인", "/auth/facebook", id: "sign_in", class:"btn" %>
-					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="span6">
-						<label class="checkbox" for="checkbox">
-							<input type="checkbox" value="true" id="checkbox" name="checkbox">
-							<span>로그인 유지하기</span>
-						</label>
-					</div>
-				</div>
+						<%= link_to "페이스북으로 로그인하기", "/auth/facebook", id: "sign_in", class:"btn" %>
 			</form>
 		</div>
 	<%end%>
