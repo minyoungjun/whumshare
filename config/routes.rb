@@ -12,4 +12,13 @@ FacebookSend::Application.routes.draw do
 
   match ':controller(/:action(/:id))(.:format)'
 
+  faye_server '/faye', timeout: 25 do
+    map '/chat' => RealtimeChatController
+    map default: :block
+  end
+
+  resources :chat
+	match 'chat', to:'chat#index'
+
+
 end

@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.6'
+gem 'rails', '3.2.11'
 gem 'therubyracer'
 
+#facebook
 gem "omniauth-facebook", "1.4.0"
 gem 'xmpp4r_facebook'
 gem 'fb_graph'
@@ -14,6 +15,11 @@ gem 'twitter-bootstrap-rails'
 
 #search
 gem 'thinking-sphinx', '3.0.0'
+
+#chat
+gem 'faye-rails'
+gem 'thin'
+gem 'haml-rails'
 
 
 # Bundle edge Rails instead:
@@ -27,6 +33,7 @@ gem 'mysql2'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'momentjs-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby

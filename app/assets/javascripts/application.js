@@ -11,10 +11,11 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require moment
 //= require jquery_ujs
-
 //= require jquery-fileupload
 //= require_tree .
+
 function category_list(id){ 
   $.ajax({
     url: "/sessions/category.json",
