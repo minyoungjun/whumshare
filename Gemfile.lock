@@ -187,12 +187,12 @@ GEM
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
-    thinking-sphinx (3.0.0)
+    thinking-sphinx (3.0.5)
       activerecord (>= 3.1.0)
       builder (>= 2.1.2)
       innertube (>= 1.0.2)
       middleware (>= 0.1.0)
-      riddle (>= 1.5.4)
+      riddle (>= 1.5.8)
     thor (0.18.1)
     tilt (1.4.1)
     timers (1.1.0)
@@ -233,7 +233,7 @@ DEPENDENCIES
   sidekiq
   therubyracer
   thin
-  thinking-sphinx (= 3.0.0)
+  thinking-sphinx
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   xmpp4r_facebook

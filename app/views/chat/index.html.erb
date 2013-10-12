@@ -1,3 +1,7 @@
+판매자 : <a><%=@seller.name%></a><br>
+구매자 : <a><%=@buyer.name%></a><br>
+물품 : <a><%=@product.id%></a><br>
+
 <ul id="chat_box">
 	<% @chat_messages.each do |chat_message|%>
     <li> 
@@ -8,6 +12,8 @@
 <hr>
 <input id="msg_input" type="text" name="message">
 <button id="send_button">Post</button>
+<input id="chat_id" type="hidden" id="<%=chat.id%>">
+<input id="user_id" type="hidden" id="<%=user.id%>">
 
 <hr>
 

@@ -13,8 +13,6 @@ development:
   username: whum  
   password: tkwkdsla
   socket:  /var/run/mysqld/mysqld.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
-  enable_star: 1
-  min_infix_len: 1
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -29,8 +27,6 @@ test:
   username: whum  
   password: tkwkdsla
   socket:  /var/run/mysqld/mysqld.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
-  enable_star: 1
-  min_infix_len: 1
 
 
 production:
@@ -43,6 +39,4 @@ production:
   username: whum  
   password: tkwkdsla
   socket:  /var/run/mysqld/mysqld.sock # 보통 mysql.sock은 tmp에 있다. (시스템에 따라..)
-  enable_star: 1
-  min_infix_len: 1
 

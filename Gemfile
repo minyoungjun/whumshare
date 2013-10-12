@@ -15,7 +15,7 @@ gem 'paperclip'
 gem 'twitter-bootstrap-rails'
 
 #search
-gem 'thinking-sphinx', '3.0.0'
+gem 'thinking-sphinx'
 
 #chat
 gem 'faye-rails', '1.0.6'

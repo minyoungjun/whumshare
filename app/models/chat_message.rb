@@ -3,7 +3,7 @@ class ChatMessage
 
   attr_accessor :message, :created_at
 
-  def initialize(message, created_at=Time.now)
+  def initialize(chat_id, message, created_at=Time.now)
     @message = message
     @created_at = created_at
     self.class.push self

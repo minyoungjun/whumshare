@@ -14,7 +14,7 @@
 	</div>
 	<div class="modal-footer">
 		<a class="btn">장바구니</a>
-		<a class="btn">메세지</a>
+		<a id="message_button" class="btn">메세지</a>
 	</div>
 </div>
 <script>
@@ -48,6 +48,7 @@ function product_modal_button(id){
 				}
 				modal_text+="</div>"
 				$("#modal_content").html(modal_text);
+				$("#message_button").attr("href","/chat?"+data.product.id);
 
 				$('#product_modal').modal("show"); 
       }else{
