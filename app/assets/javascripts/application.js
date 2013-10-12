@@ -12,10 +12,10 @@
 //
 //= require jquery
 //= require moment
+//= require faye
 //= require jquery_ujs
 //= require jquery-fileupload
 //= require_tree .
-//= require faye
 
 function category_list(id){ 
   $.ajax({

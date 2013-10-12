@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
 gem 'therubyracer'
+gem 'rack', '1.4.1'
 
 #facebook
 gem "omniauth-facebook", "1.4.0"
@@ -17,7 +18,7 @@ gem 'twitter-bootstrap-rails'
 gem 'thinking-sphinx', '3.0.0'
 
 #chat
-gem 'faye-rails'
+gem 'faye-rails', '1.0.6'
 gem 'thin'
 gem 'haml-rails'
 

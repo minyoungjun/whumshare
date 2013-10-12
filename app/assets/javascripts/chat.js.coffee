@@ -7,11 +7,11 @@ client = new Faye.Client('/faye')
 client.subscribe '/chat', (payload)->
   time = moment(payload.created_at).format('D/M/YYYY H:mm:ss')
   # You probably want to think seriously about XSS here:
-  $('#chat').append("<li>#{time} : #{payload.message}</li>")
+  $('#chat_box').append("<li>#{time} : #{payload.message}</li>")
 
 $(document).ready ->
-  input = $('input')
-  button = $('button')
+  input = $('#msg_input')
+  button = $('#send_button')
   button.click ->
     button.attr('disabled', 'disabled')
     button.text('Posting...')
