@@ -20,8 +20,7 @@ gem 'thinking-sphinx', '3.0.0'
 #chat
 gem 'faye-rails', '1.0.6'
 gem 'thin'
-gem 'haml-rails'
-
+gem 'sidekiq'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

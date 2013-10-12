@@ -15,7 +15,7 @@ class FacebookController < ApplicationController
 		end
   end
 
-	def send_message
+	def self.send_message(message_id,message)
 		to_id=params[:message_id]
 		id = "-#{User.find(session[:user_id]).uid}@chat.facebook.com"
 		to = "-#{to_id}@chat.facebook.com"

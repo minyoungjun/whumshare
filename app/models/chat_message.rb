@@ -7,6 +7,7 @@ class ChatMessage
     @message = message
     @created_at = created_at
     self.class.push self
+		FBMsgWorker.perform_async(4, 1, message)
   end
 
   def self.push(chat_message)
@@ -18,4 +19,5 @@ class ChatMessage
   def self.find
     @chat_messages ||= []
   end
+
 end
