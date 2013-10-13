@@ -3,7 +3,7 @@ class Chat < ActiveRecord::Base
 	belongs_to :product
 	has_many :messages
 	
-	def find_or_make(seller_id, buyer_id, product_id)
+	def self.find_or_make(seller_id, buyer_id, product_id)
 		chat = self.where(:seller_id => seller_id, :buyer_id=>buyer_id, :product_id => product_id).first
 
 		if chat.nil?

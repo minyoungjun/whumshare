@@ -1,32 +1,17 @@
-class Message < ActiveRecord::Base
-  # attr_accessible :title, :body
-	belongs_to :chat
-	belongs_to :user
+class FBMsgWorker
+  include Sidekiq::Worker
 
-	def self.make_msg(chat_id, user_id, message)
-		msg=self.new
-		msg.chat_id = chat_id
-		msg.user_id = user_id
-		msg.content = message
-		msg.save
-		puts "#{chat_id} #{user_id} #{message}!!!!!!!!!!!!!!!!!"
-
-		#FBMsgWorker.perform_async(user_id, chat_id, message)
-		self.pf(user_id, chat_id, message)
-	end
-private
-	def self.pf(from_id,chat_id, message)
-		chat=Chat.find(chat_id)
+  def perform(from_id,chat_id, message)
+		puts "???????????!"
+		chat = Chat.find(chat_id)
 		puts "qqqqqqqqqqqqq"
 		if chat.buyer_id == from_id.to_i
 			to_id = chat.seller_id
 		elsif chat.seller_id == from_id.to_i
 			to_id = chat.buyer_id
-		else
-			return false
 		end
 
-		puts "#{chat_id} #{from_id} #{to_id}start facebook send!!!!!!!!!!"
+		puts "start facebook send!!!!!!!!!!"
 		id = "-#{User.find(from_id).uid}@chat.facebook.com"
 		to = "-#{User.find(to_id).uid}@chat.facebook.com"
 		body = message
@@ -39,5 +24,4 @@ private
 		client.send message
 		client.close
   end
-
 end

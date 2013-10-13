@@ -1,8 +1,6 @@
 class ChatController < ApplicationController
 	def index
-
-
-		product_id=params[:key]
+		product_id=params[:product_id]
 		product=Product.find(product_id)
 		seller_id=product.user_id
 		buyer_id=session[:user_id]
@@ -14,8 +12,8 @@ class ChatController < ApplicationController
 
 		@product=product
 		@seller=User.find(chat.seller_id)
-		@buyer=User.find(chat.seller_id)
+		@buyer=User.find(chat.buyer_id)
 
-    @chat_messages = ChatMessages.find
+    @chat_messages = chat.messages
 	end
 end

@@ -8,9 +8,7 @@ class RealtimeChatController < FayeRails::Controller
                    else
                      Time.now
                    end
-			#Message.new(message['message']
-
-      ChatMessage.new(message['message'], created_at)
+			ChatMessage.new(message['chat_id'],message['user_id'], message['message'])
     end
   end
 end
