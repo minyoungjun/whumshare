@@ -29,7 +29,7 @@ class FacebookController < ApplicationController
 		client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client, '562260310492321', User.find(session[:user_id]).oauth_token, '9b209a9e006a2244f69419ee5a2b2355'), nil)
 
 		client.send message
-		client.close
+		#client.close
 
     data = { 
 			:msg=>"success!"

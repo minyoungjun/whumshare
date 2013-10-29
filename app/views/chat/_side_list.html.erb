@@ -1,6 +1,29 @@
 <div class="row-fluid">
-	<div class="span12">
-		<div class="well">susang
-		</div>
+	<div class="span12" id="chat_list">
 	</div>
 </div>
+<script>
+$(function(){
+  $.ajax({
+    url: "/chat/chat_list.json",
+    type: "POST",
+		success: function(data){
+			var html_context = "";
+			user_id = data.user_id
+			chats = data.chats
+			
+			for(i=0;i<chats.length;i++){
+				if(user_id == chats[i].seller_id){//현재 사용자가 판매자일 때 
+					html_context += "<a href='/chat/seller/" + chats[i].id + "'> 구매자 : " + chats[i].buyer_id + "</a><br>\n";
+				} else if(user_id == chats[i].buyer_id){
+					html_context += "<a href='/chat/buyer/" + chats[i].id + "'> 판매자 : " + chats[i].seller_id + "</a><br>\n";
+				}
+			}
+			$("#chat_list").html(html_context);
+		}
+	});
+
+});
+
+
+</script>

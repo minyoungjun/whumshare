@@ -1,0 +1,4 @@
+2013-10-15T16:40:39Z 7609 TID-agyu0 INFO: Booting Sidekiq 2.15.1 using redis://localhost:6379/0 with options {}
+2013-10-15T16:40:39Z 7609 TID-agyu0 INFO: Running in ruby 1.9.2p320 (2012-04-20 revision 35421) [x86_64-linux]
+2013-10-15T16:40:39Z 7609 TID-agyu0 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2013-10-15T16:40:39Z 7609 TID-agyu0 INFO: Starting processing, hit Ctrl-C to stop

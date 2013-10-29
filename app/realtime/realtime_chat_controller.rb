@@ -1,7 +1,7 @@
 class RealtimeChatController < FayeRails::Controller
-  channel '/chat' do
+  channel '/chat/*' do
     subscribe do
-      Rails.logger.debug "Received on #{channel}: #{inspect}"
+      puts "Received on #{channel}: #{inspect}"
 
       created_at = if message['created_at'] && message['created_at'].size > 0
                      Time.parse(message['created_at'])
