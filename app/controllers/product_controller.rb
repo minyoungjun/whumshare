@@ -61,8 +61,6 @@ class ProductController < ApplicationController
 		puts "method:#{method}" 
 
 		data = { 
-      :error_code => 0,
-      :error_msg => "",
 			:product=>product,
 			:uploads=>uploads,
 			:method=>method,
@@ -91,8 +89,6 @@ class ProductController < ApplicationController
 	def sell_product_json
 		product_id=Product.add(params,session)
 		data = { 
-      :error_code => 0,
-      :error_msg => "",
 			:product_id => product_id
     }   
 

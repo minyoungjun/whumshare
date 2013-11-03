@@ -1,4 +1,5 @@
 # encoding: utf-8
+# 나중에 없앨 컨트롤러. 테스트용.
 class FacebookController < ApplicationController
 	require 'xmpp4r_facebook'
 

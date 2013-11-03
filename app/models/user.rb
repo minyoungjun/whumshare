@@ -29,20 +29,20 @@ class User < ActiveRecord::Base
 		puts "birthday:::#{u.inspect}"
 =end
 	
-		
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
       user.uid = auth.uid
       user.name = auth.info.name
 			user.thumb_img = auth.info.image
 			user.birthday=Date.strptime(auth.extra.raw_info.birthday,'%m/%d/%Y')
+
 			case auth.extra.raw_info.gender
-			when "female"
-				user.gender=0
-			when "male"
-				user.gender=1
-			else
-				user.gender=2
+				when "female"
+					user.gender=0
+				when "male"
+					user.gender=1
+				else
+					user.gender=2
 			end
 
       user.oauth_token = auth.credentials.token
@@ -52,11 +52,13 @@ class User < ActiveRecord::Base
       user.save!
     end
   end
+
 	def get_friends_count
 		fb_user = FbGraph::User.me(self.oauth_token)
 	  fb_friends = fb_user.friends
 		return fb_friends.size
 	end
+
 	def get_friends_list
 		fb_user = FbGraph::User.me(self.oauth_token)
 	  fb_friends = fb_user.friends
