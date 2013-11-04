@@ -4,23 +4,47 @@ class FBReceiveMsg
 	APP_ID = '562260310492321'
 	APP_SECRET = '9b209a9e006a2244f69419ee5a2b2355'
 
-  def perform(from_id, from_uid, from_oauth_token)
-		id = "-#{from_uid}@chat.facebook.com"
+  def perform(to_id, to_uid, to_oauth_token)
+		id = "-#{to_uid}@chat.facebook.com"
 		client = Jabber::Client.new Jabber::JID.new(id)
 		client.connect
-		client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client, APP_ID, from_oauth_token, APP_SECRET), nil)
+		client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client, APP_ID, to_oauth_token, APP_SECRET), nil)
 
 		client.add_message_callback do |m|
-			if User.find(from_id).now_login == false
+			to_user = User.find(to_id)
+			if to_user.now_login == false
 				break
 			end
 
 			puts "mtype:#{m.type} m#{m}"
-
 			#mtype:chat m<message from='-100001416468070@chat.facebook.com' to='-100002734181687@chat.facebook.com/L436Adsk' type='chat' xmlns='jabber:client'><composing xmlns='http://jabber.org/protocol/chatstates'/></message> 작성중
 			#mtype:chat m<message from='-100001416468070@chat.facebook.com' to='-100002734181687@chat.facebook.com/L436Adsk' type='chat' xmlns='jabber:client'><body>ㅁㅁㅁ </body><active xmlns='http://jabber.org/protocol/chatstates'/></message>메세지 받기
-			if m.type != :error
+			if m.type != :error and !m.body.nil?
+				puts "from : #{m.from}"
+				#puts "from type : #{m.from.class.name}"
 				puts "Message : #{m.body}"
+				m_from = m.from.to_s
+				temp_index = m_from.index('@')
+				from_uid = m_from[1...temp_index]
+				puts "from_uid#{from_uid}"
+				from_user = User.find_by_uid(from_uid)
+				puts "from_user#{from_user}"
+				
+				if from_user.nil? == false
+					puts "chat! #{from_user.id} #{to_user.id}"
+					#get chat that contain from_user, to_user
+					chats = Chat.where("seller_id = ? AND buyer_id = ?", from_user.id, to_user.id) + Chat.where("seller_id = ? AND buyer_id = ?", to_user.id, from_user.id)
+					chats.uniq!
+					puts "chat #{chats.inspect}"
+
+					chats.each do |chat|
+						msg = chat.messages.new
+						msg.user_id = from_user.id
+						msg.content = m.body
+						msg.save!
+					end
+				end
+
 			end
 		end
 	end

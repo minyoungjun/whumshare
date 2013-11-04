@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   def create
     user = User.from_omniauth(env["omniauth.auth"])
 		user.now_login = true
+		user.save!
 
 		Message.connect_facebook_chat user
 
@@ -16,9 +17,9 @@ class SessionsController < ApplicationController
   def destroy
 		#have to check user is online or not. if user do nothing over 15 min, logout.
 
+		user = User.find(session[:user_id])
 		user.now_login = false
-
-		Message.disconnect_facebook_chat
+		user.save!
 
     session[:user_id] = nil
     redirect_to root_url
@@ -27,8 +28,6 @@ class SessionsController < ApplicationController
   def category
     session[:category_id]=params[:category_id].to_i
     data = { 
-      :error_code => 0,
-      :error_msg => "",
     }   
 
     respond_to do |format|

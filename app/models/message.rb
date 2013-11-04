@@ -19,10 +19,6 @@ class Message < ActiveRecord::Base
 		FBReceiveMsg.perform_async(@myuser.id, @myuser.uid, @myuser.oauth_token)
 	end
 
-	def self.disconnect_facebook_chat
-
-		FBDisconnect.perform_async(@myuser.uid, @myuser.oauth_token) unless @myuser.nil?
-	end
 	def self.get_facebook_client
 		@@facebook_client
 	end

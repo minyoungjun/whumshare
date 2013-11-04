@@ -30,30 +30,26 @@ function product_modal_button(id){
       product_id: id
     },
     success: function(data) {
-      if(data.error_code==0){
-				modal_text=""
-				modal_text+=data.product.name+"/"
-				modal_text+= data.product.price+"/"
-				modal_text+= data.product.buy_year+"년 "+ data.product.buy_month+"월/"
-				modal_text+= data.method+"/"
-				modal_text+= data.status+"/"
-				modal_text+= data.product.comment
-				uploads=data.uploads
+			modal_text=""
+			modal_text+=data.product.name+"/"
+			modal_text+= data.product.price+"/"
+			modal_text+= data.product.buy_year+"년 "+ data.product.buy_month+"월/"
+			modal_text+= data.method+"/"
+			modal_text+= data.status+"/"
+			modal_text+= data.product.comment
+			uploads=data.uploads
 
-				modal_text+="<div class='row-fluid'>"
-				for(i=0;i<uploads.length;i++){
-					modal_text+="<div class='span3'>"
-					modal_text+="	<img src='"+uploads[i]+"' >"
-					modal_text+="</div>"
-				}
+			modal_text+="<div class='row-fluid'>"
+			for(i=0;i<uploads.length;i++){
+				modal_text+="<div class='span3'>"
+				modal_text+="	<img src='"+uploads[i]+"' >"
 				modal_text+="</div>"
-				$("#modal_content").html(modal_text);
-				$("#message_button").attr("href","/chat/buyer?product_id="+data.product.id);
+			}
+			modal_text+="</div>"
+			$("#modal_content").html(modal_text);
+			$("#message_button").attr("href","/chat/buyer?product_id="+data.product.id);
 
-				$('#product_modal').modal("show"); 
-      }else{
-        alert(data.error_msg);
-      }
+			$('#product_modal').modal("show"); 
     }
   });
 }
