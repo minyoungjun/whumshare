@@ -23,6 +23,8 @@ class CreateUsers < ActiveRecord::Migration
 			t.integer :bad_count,		:default=>0
 			t.integer :trade_count,	:default=>0
 
+			t.boolean :now_login, :default=>false
+
       t.timestamps
     end
   end

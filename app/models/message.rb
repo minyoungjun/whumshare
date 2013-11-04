@@ -1,5 +1,6 @@
 class Message < ActiveRecord::Base
-	attr_accessor :facebook_client,:myuser
+	attr_accessor :myuser
+	@@facebook_client = nil
 
 	APP_ID = '562260310492321'
 	APP_SECRET = '9b209a9e006a2244f69419ee5a2b2355'
@@ -9,17 +10,21 @@ class Message < ActiveRecord::Base
 
 	def self.connect_facebook_chat(user)
 		@myuser = user
-		puts "connect_facebook_c #{@myuser.inspect}"
-		uid = "-#{@myuser.uid}@chat.facebook.com"
-		client = Jabber::Client.new Jabber::JID.new(uid)
-		client.connect
-		client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client, APP_ID, user.oauth_token, APP_SECRET), nil)
-		@facebook_client = client
+		id = "-#{user.uid}@chat.facebook.com"
+		client = Jabber::Client.new Jabber::JID.new(id)
+		$facebook_client = client
+		puts "facebook_client #{$facebook_client}"
+		puts "facebook_client #{$facebook_client.inspect}"
+
+		FBReceiveMsg.perform_async(@myuser.id, @myuser.uid, @myuser.oauth_token)
 	end
 
 	def self.disconnect_facebook_chat
-		@facebook_client.close unless @facebook_client.nil?
-		@facebook_client = nil
+
+		FBDisconnect.perform_async(@myuser.uid, @myuser.oauth_token) unless @myuser.nil?
+	end
+	def self.get_facebook_client
+		@@facebook_client
 	end
 
 	def self.send_facebook_message(chat_id, message)
@@ -45,9 +50,6 @@ class Message < ActiveRecord::Base
 		end
 		to_uid = User.find(to_id).uid
 
-		#FBSendMsgWorker.perform_async(@facebook_client, to_id, message)
-		facebook_client=@facebook_client
-		puts "@facebook #{facebook_client.to_s}"
 		puts "@to_id/messge #{to_id} #{message}"
 		FBMsgWorker.perform_async(@myuser.uid, to_uid, message, @myuser.oauth_token)
 	end

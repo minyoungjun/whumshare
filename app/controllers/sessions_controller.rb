@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.from_omniauth(env["omniauth.auth"])
+		user.now_login = true
 
 		Message.connect_facebook_chat user
 
@@ -14,6 +15,8 @@ class SessionsController < ApplicationController
 
   def destroy
 		#have to check user is online or not. if user do nothing over 15 min, logout.
+
+		user.now_login = false
 
 		Message.disconnect_facebook_chat
 

@@ -43,11 +43,10 @@ ActiveRecord::Schema.define(:version => 20130924165456) do
   end
 
   create_table "chats", :force => true do |t|
-    t.integer  "room_number"
+    t.string   "room_number"
     t.integer  "product_id"
     t.integer  "seller_id"
     t.integer  "buyer_id"
-    t.integer  "medi_id"
     t.integer  "last_msg_id"
     t.integer  "seller_see_msg_id"
     t.integer  "buyer_see_msg_id"
@@ -141,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20130924165456) do
     t.integer  "good_count",       :default => 0
     t.integer  "bad_count",        :default => 0
     t.integer  "trade_count",      :default => 0
+    t.boolean  "now_login",        :default => false
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
