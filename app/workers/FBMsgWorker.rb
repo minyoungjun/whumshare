@@ -28,12 +28,16 @@ class FBMsgWorker
 		
 		if(is_first_message)
 			inboxes = FbGraph::Query.new("SELECT author_id, viewer_id, thread_id, body FROM message WHERE thread_id IN (SELECT thread_id FROM thread WHERE folder_id=0 OR folder_id=1)").fetch(:access_token => from_oauth_token)
+			puts "FB #{inboxes.inspect}"
 			inboxes.each do |inbox|
-				if((inbox.author_id == from_uid and inbox.viewer_id == to_uid) or
-						(inbox.author_id == to_uid and inbox.viewer_id == from_uid))
+				puts "FBinbox #{inbox.inspect}"
+				if(inbox["author_id"] == from_uid and inbox["body"] == message) 
+						puts "OK"
+					
 						chat = Chat.find(chat_id)
-						chat.room_number = inbox.thread_id
+						chat.room_number = inbox["thread_id"]
 						chat.save
+						break
 				end
 			end
 		end
