@@ -14,9 +14,9 @@ $(function(){
 			
 			for(i=0;i<chats.length;i++){
 				if(user_id == chats[i].seller_id){//현재 사용자가 판매자일 때 
-					html_context += "<a href='/chat/seller/" + chats[i].id + "'> 구매자 : " + chats[i].buyer_id + "</a><br>\n";
+					html_context += "<a href='/chat/chatroom/" + chats[i].id + "'> 구매자 : " + chats[i].buyer_id + "</a><br>\n";
 				} else if(user_id == chats[i].buyer_id){
-					html_context += "<a href='/chat/buyer/" + chats[i].id + "'> 판매자 : " + chats[i].seller_id + "</a><br>\n";
+					html_context += "<a href='/chat/chatroom/" + chats[i].id + "'> 판매자 : " + chats[i].seller_id + "</a><br>\n";
 				}
 			}
 			$("#chat_list").html(html_context);

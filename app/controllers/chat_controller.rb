@@ -11,30 +11,11 @@ class ChatController < ApplicationController
 	end
 =end
 
-	def seller #현 사용자가 판매자
-		chat_id=params[:id]
-		chat = Chat.find(chat_id)
+	def chatroom 	
+	chat_id=params[:id]
 
-		@user_id=session[:user_id]
-		@user_name=User.find(session[:user_id]).name
-		@chat_id=chat.id
-		@product=chat.product
-		@seller=User.find(chat.seller_id)
-		@buyer=User.find(chat.buyer_id)
+		if chat_id.nil?#현 사용자가 구매자일 경우, 채팅 방이 없을 수 있다.
 
-		messages = chat.messages
-		messages_with_user = Array.new
-		messages.each do |message|
-			messages_with_user << [message, message.user.name]
-		end
-		@messages_with_user = messages_with_user
-
-	end
-
-	def buyer #현 사용자가 구매자
-		chat_id=params[:id]
-
-		if chat_id.nil?
 			product_id=params[:product_id]
 			product=Product.find(product_id)
 			seller_id=product.user_id
@@ -77,4 +58,12 @@ class ChatController < ApplicationController
       format.json { render :json=> data } 
     end
 	end
+	def send_facebook_message
+		Message.send_facebook_message(params[:chat_id], params[:message])
+
+    respond_to do |format|
+      format.json { render :json => "success" }
+    end
+	end
+
 end

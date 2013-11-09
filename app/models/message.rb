@@ -1,6 +1,5 @@
 class Message < ActiveRecord::Base
 	attr_accessor :myuser
-	@@facebook_client = nil
 
 	APP_ID = '562260310492321'
 	APP_SECRET = '9b209a9e006a2244f69419ee5a2b2355'
@@ -12,15 +11,7 @@ class Message < ActiveRecord::Base
 		@myuser = user
 		id = "-#{user.uid}@chat.facebook.com"
 		client = Jabber::Client.new Jabber::JID.new(id)
-		$facebook_client = client
-		puts "facebook_client #{$facebook_client}"
-		puts "facebook_client #{$facebook_client.inspect}"
-
 		FBReceiveMsg.perform_async(@myuser.id, @myuser.uid, @myuser.oauth_token)
-	end
-
-	def self.get_facebook_client
-		@@facebook_client
 	end
 
 	def self.send_facebook_message(chat_id, message)
@@ -28,8 +19,10 @@ class Message < ActiveRecord::Base
 
 		puts "connect_facebook_c!! #{@myuser.inspect}"
 		if @myuser.nil?
+			puts "no @myuser"
 			return false
 		end
+
 		msg=self.new
 		msg.chat_id = chat_id
 		msg.user_id = @myuser.id

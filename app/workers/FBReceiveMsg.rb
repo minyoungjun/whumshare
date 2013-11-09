@@ -1,3 +1,4 @@
+require 'eventmachine'
 class FBReceiveMsg
   include Sidekiq::Worker
 
@@ -23,47 +24,46 @@ class FBReceiveMsg
 				puts "from : #{m.from}"
 				#puts "from type : #{m.from.class.name}"
 				puts "Message : #{m.body}"
-				m_from = m.from.to_s
-				temp_index = m_from.index('@')
-				from_uid = m_from[1...temp_index]
-				puts "from_uid#{from_uid}"
+				#m_from = m.from.to_s
+				#temp_index = m_from.index('@')
+				from_uid = m.from.node[1..-1]
+				puts "#{m.from} from_uid#{from_uid}"
+
 				from_user = User.find_by_uid(from_uid)
-				puts "from_user#{from_user}"
+				puts "from_user#{from_user.inspect}"
 				
 				if from_user.nil? == false
-					puts "chat! #{from_user.id} #{to_user.id}"
+					puts "receive message => chat from_user_id#{from_user.id} to_user#{to_user.id}"
 					#get chat that contain from_user, to_user
 					chats = Chat.where("seller_id = ? AND buyer_id = ?", from_user.id, to_user.id) + Chat.where("seller_id = ? AND buyer_id = ?", to_user.id, from_user.id)
 					chats.uniq!
 					puts "chat #{chats.inspect}"
 
-					chats.each do |chat|
-						msg = chat.messages.new
-						msg.user_id = from_user.id
-						msg.content = m.body
-						msg.save!
-					end
+					#EM.run {
+						client = Faye::Client.new('http://share.whum.net/faye')
+						chats.each do |chat|
+							msg = chat.messages.new
+							msg.user_id = from_user.id
+							msg.content = m.body
+							msg.save!
+
+							data = {
+								:message => m.body,
+								:chat_id => chat.id,
+								:user_id => from_user.id,
+								:user_name => from_user.name,
+								:created_at => Time.now
+							}
+							client.publish("/chat/#{chat.id}", data)
+						end
+					#}
+
+				else
+					puts "uid that no in User.find_by_uid"
 				end
+
 
 			end
 		end
 	end
-=begin
-private
-	def is_composing(message)
-		puts "message"
-		s = message.index('<',1)
-		e = message.index('/>')
-		str = message[s..e+1]
-		puts "STR#{str}"
-		
-		if str == "<composing xmlns='http://jabber.org/protocol/chatstates'/>"
-			ret = true
-		else
-			ret = false
-		end
-
-		ret
-	end
-=end
 end

@@ -1,4 +1,3 @@
-
 판매자 : <a><%=@seller.name%></a><br>
 구매자 : <a><%=@buyer.name%></a><br>
 물품 : <a><%=@product.id%></a><br>
@@ -20,13 +19,14 @@
 <input id="user_id" type="hidden" value="<%=@user_id%>">
 
 <hr>
+
 <script>
 $(function(){
 	(function() {
 		var client;
 		var chat_channel="/chat/<%=@chat_id%>";
 		
-		client = new Faye.Client('/faye');
+		client = new Faye.Client('http://share.whum.net/faye');
 
 		client.subscribe(chat_channel, function(payload) {
 
@@ -46,6 +46,14 @@ $(function(){
 				var publication;
 				button.attr('disabled', 'disabled');
 				button.text('Posting...');
+				$.ajax({
+					url: "/chat/send_facebook_message.json",
+					type: "POST",
+					data: {
+						message: input.attr('value'),
+						chat_id: <%=@chat_id%>,
+					}
+				});
 
 				publication = client.publish(chat_channel, {
 					message: input.attr('value'),
@@ -78,4 +86,3 @@ $(function(){
 });
 
 </script>
-
