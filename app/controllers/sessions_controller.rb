@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
 		user.save!
 
 		Message.connect_facebook_chat user
+		Chat.sync_message(user.id)
 
     session[:user_id] = user.id
 		session[:category_id]=1 if session[:category_id].nil?

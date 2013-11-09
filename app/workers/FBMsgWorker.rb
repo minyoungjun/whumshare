@@ -5,7 +5,7 @@ class FBMsgWorker
 	APP_ID = '562260310492321'
 	APP_SECRET = '9b209a9e006a2244f69419ee5a2b2355'
 
-  def perform(from_uid, to_uid, message, from_oauth_token) 
+  def perform(from_uid, to_uid, message, from_oauth_token, is_first_message, chat_id) 
 		#puts "client #{client}"
 		#메세지 보내기 connect가 반복된다
 		puts "from_uid #{from_uid}"
@@ -25,5 +25,17 @@ class FBMsgWorker
 
 		client.send send_message
 		client.close
+		
+		if(is_first_message)
+			inboxes = FbGraph::Query.new("SELECT author_id, viewer_id, thread_id, body FROM message WHERE thread_id IN (SELECT thread_id FROM thread WHERE folder_id=0 OR folder_id=1)").fetch(:access_token => from_oauth_token)
+			inboxes.each do |inbox|
+				if((inbox.author_id == from_uid and inbox.viewer_id == to_uid) or
+						(inbox.author_id == to_uid and inbox.viewer_id == from_uid))
+						chat = Chat.find(chat_id)
+						chat.room_number = inbox.thread_id
+						chat.save
+				end
+			end
+		end
 	end
 end

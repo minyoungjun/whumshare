@@ -1,3 +1,4 @@
+#encoding=utf-8
 class Message < ActiveRecord::Base
 	attr_accessor :myuser
 
@@ -15,7 +16,7 @@ class Message < ActiveRecord::Base
 	end
 
 	def self.send_facebook_message(chat_id, message)
-	#make message
+		#make message
 
 		puts "connect_facebook_c!! #{@myuser.inspect}"
 		if @myuser.nil?
@@ -30,6 +31,7 @@ class Message < ActiveRecord::Base
 		msg.save
 
 		chat=Chat.find(chat_id)
+
 		if chat.buyer_id == @myuser.id
 			to_id = chat.seller_id
 		elsif chat.seller_id == @myuser.id
@@ -40,6 +42,38 @@ class Message < ActiveRecord::Base
 		to_uid = User.find(to_id).uid
 
 		puts "@to_id/messge #{to_id} #{message}"
-		FBMsgWorker.perform_async(@myuser.uid, to_uid, message, @myuser.oauth_token)
+		FBMsgWorker.perform_async(@myuser.uid, to_uid, message, @myuser.oauth_token, false, chat_id)
 	end
+
+
+	def self.send_first_facebook_message(chat_id)
+		puts "connect_facebook_c!! #{@myuser.inspect}"
+		if @myuser.nil?
+			puts "no @myuser"
+			return false
+		end
+
+
+		chat=Chat.find(chat_id)
+		if chat.buyer_id == @myuser.id
+			to_id = chat.seller_id
+		elsif chat.seller_id == @myuser.id
+			to_id = chat.buyer_id
+		else
+			puts "ERROR! can't match chat_id! user_id=#{@myuser.id} chat=#{chat.inspect}"
+		end
+
+		message="WHUM 알림 : #{@myuser.name}님께서 #{chat.product.name}에 대해 대화를 신청하였습니다."
+		to_uid = User.find(to_id).uid
+
+		msg=self.new
+		msg.chat_id = chat_id
+		msg.user_id = @myuser.id
+		msg.content = message
+		msg.save
+		
+		puts "@to_id/messge #{to_id} #{message}"
+		FBMsgWorker.perform_async(@myuser.uid, to_uid, message, @myuser.oauth_token, true, chat_id)
+	end
+
 end

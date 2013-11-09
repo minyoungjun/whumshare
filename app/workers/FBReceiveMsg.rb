@@ -61,8 +61,6 @@ class FBReceiveMsg
 				else
 					puts "uid that no in User.find_by_uid"
 				end
-
-
 			end
 		end
 	end

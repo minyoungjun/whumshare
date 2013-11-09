@@ -47,7 +47,7 @@ function product_modal_button(id){
 			}
 			modal_text+="</div>"
 			$("#modal_content").html(modal_text);
-			$("#message_button").attr("href","/chat/buyer?product_id="+data.product.id);
+			$("#message_button").attr("href","/chat/chatroom?product_id="+data.product.id);
 
 			$('#product_modal').modal("show"); 
     }

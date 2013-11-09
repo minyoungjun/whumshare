@@ -1,3 +1,4 @@
+#encoding=utf-8
 class ChatController < ApplicationController
 =begin
 	before_filter :params_null_check, :only => [:seller, :buyer]
@@ -14,7 +15,7 @@ class ChatController < ApplicationController
 	def chatroom 	
 	chat_id=params[:id]
 
-		if chat_id.nil?#현 사용자가 구매자일 경우, 채팅 방이 없을 수 있다.
+		if chat_id.nil?#현 사용자가 구매자일 경우, 채팅 방이 없을 수 있다. 그러면 새로 방 만들기!
 
 			product_id=params[:product_id]
 			product=Product.find(product_id)
@@ -22,6 +23,9 @@ class ChatController < ApplicationController
 			buyer_id=session[:user_id]
 
 			chat=Chat.find_or_make(seller_id,buyer_id,product_id)
+			#대화방 팠습니다. 이거 하면 될듯?!
+			Message.send_first_facebook_message(chat.id)
+
 		else
 			chat=Chat.find(chat_id)
 		end
@@ -58,6 +62,7 @@ class ChatController < ApplicationController
       format.json { render :json=> data } 
     end
 	end
+
 	def send_facebook_message
 		Message.send_facebook_message(params[:chat_id], params[:message])
 
