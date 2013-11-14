@@ -1,4 +1,6 @@
+#encoding:utf-8
 require 'eventmachine'
+
 class FBReceiveMsg
   include Sidekiq::Worker
 
@@ -18,17 +20,12 @@ class FBReceiveMsg
 			end
 
 			puts "mtype:#{m.type} m#{m}"
-			#mtype:chat m<message from='-100001416468070@chat.facebook.com' to='-100002734181687@chat.facebook.com/L436Adsk' type='chat' xmlns='jabber:client'><composing xmlns='http://jabber.org/protocol/chatstates'/></message> 작성중
-			#mtype:chat m<message from='-100001416468070@chat.facebook.com' to='-100002734181687@chat.facebook.com/L436Adsk' type='chat' xmlns='jabber:client'><body>ㅁㅁㅁ </body><active xmlns='http://jabber.org/protocol/chatstates'/></message>메세지 받기
-			if m.type != :error and !m.body.nil?
+
+			if m.type != :error and !(m.body.nil?)
 				puts "from : #{m.from}"
-				#puts "from type : #{m.from.class.name}"
 				puts "Message : #{m.body}"
-				#m_from = m.from.to_s
-				#temp_index = m_from.index('@')
 				from_uid = m.from.node[1..-1]
 				puts "#{m.from} from_uid#{from_uid}"
-
 				from_user = User.find_by_uid(from_uid)
 				puts "from_user#{from_user.inspect}"
 				
@@ -57,11 +54,12 @@ class FBReceiveMsg
 							client.publish("/chat/#{chat.id}", data)
 						end
 					#}
-
 				else
 					puts "uid that no in User.find_by_uid"
 				end
 			end
+			puts "!!!receive doing"
 		end
+		puts "!!!receive end"
 	end
 end

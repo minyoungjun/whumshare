@@ -1,4 +1,5 @@
-#encoding=utf-8
+#encoding:utf-8
+#require 'eventmachine'
 class Message < ActiveRecord::Base
 	attr_accessor :myuser
 
@@ -12,7 +13,8 @@ class Message < ActiveRecord::Base
 		@myuser = user
 		id = "-#{user.uid}@chat.facebook.com"
 		client = Jabber::Client.new Jabber::JID.new(id)
-		FBReceiveMsg.perform_async(@myuser.id, @myuser.uid, @myuser.oauth_token)
+		#FBReceiveMsg.perform_async(@myuser.id, @myuser.uid, @myuser.oauth_token)
+		Message.perform(@myuser.id, @myuser.uid, @myuser.oauth_token)
 	end
 
 	def self.send_facebook_message(chat_id, message)
@@ -75,5 +77,58 @@ class Message < ActiveRecord::Base
 		puts "@to_id/messge #{to_id} #{message}"
 		FBMsgWorker.perform_async(@myuser.uid, to_uid, message, @myuser.oauth_token, true, chat_id)
 	end
+  def self.perform(to_id, to_uid, to_oauth_token)
+		id = "-#{to_uid}@chat.facebook.com"
+		client = Jabber::Client.new Jabber::JID.new(id)
+		client.connect
+		client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client, APP_ID, to_oauth_token, APP_SECRET), nil)
 
+		client.add_message_callback do |m|
+			puts "!!!"
+			puts "m#{m}"
+			puts "m_i #{m.inspect}"
+			to_user = User.find(to_id)
+			if to_user.now_login == false
+				break
+			end
+			if m.type != :error and !(m.body.nil?)
+				puts "from : #{m.from}"
+				puts "Message : #{m.body}"
+				from_uid = m.from.node[1..-1]
+				puts "#{m.from} from_uid#{from_uid}"
+				from_user = User.find_by_uid(from_uid)
+				puts "from_user#{from_user.inspect}"
+				
+				if from_user.nil? == false
+					puts "receive message => chat from_user_id#{from_user.id} to_user#{to_user.id}"
+					#get chat that contain from_user, to_user
+					chats = Chat.where("seller_id = ? AND buyer_id = ?", from_user.id, to_user.id) + Chat.where("seller_id = ? AND buyer_id = ?", to_user.id, from_user.id)
+					chats.uniq!
+					puts "chat #{chats.inspect}"
+
+					#faye
+					client = Faye::Client.new('http://share.whum.net/faye')
+					chats.each do |chat|
+						msg = chat.messages.new
+						msg.user_id = from_user.id
+						msg.content = m.body
+						msg.save!
+
+						data = {
+							:message => m.body,
+							:chat_id => chat.id,
+							:user_id => from_user.id,
+							:user_name => from_user.name,
+							:created_at => Time.now
+						}
+						client.publish("/chat/#{chat.id}", data)
+					end
+				else
+					puts "uid that no in User.find_by_uid"
+				end
+			end
+			puts "!!!receive doing"
+		end
+		puts "!!!receive end"
+	end
 end

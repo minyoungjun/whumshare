@@ -23,10 +23,10 @@ class Chat < ActiveRecord::Base
 		chats.each do |chat|
 			last_message = chat.messages.last #whum에서 한 마지막 메세지 
 			unixtime_last_message = last_message.created_at.to_time.to_i
-			last_messgae_uid = last_message.user.uid
+			last_message_uid = last_message.user.uid
 
 			run_loop = true
-			while run_loop  do
+			0.upto(5)  do
 				fb_messages = FbGraph::Query.new("SELECT author_id, viewer_id, body, message_id, created_time FROM message WHERE thread_id = #{chat.room_number} AND created_time < #{prev_created_time}").fetch(:access_token => User.find(user_id).oauth_token)
 				
 				users = Array.new
@@ -41,26 +41,25 @@ class Chat < ActiveRecord::Base
 				users << user
 
 
-
 				fb_messages.reverse.each do |fb_message|
 					puts "!!!#{fb_message.inspect}"
 
 					m = Message.new
-					if(fb_message.author_id == users[0][:uid] )
+					if(fb_message["author_id"] == users[0][:uid] )
 						m.user_id = users[0][:id]
-					elsif(fb_message.author_id == users[1][:uid] )
+					elsif(fb_message["author_id"] == users[1][:uid] )
 						m.user_id = users[1][:id]
 					end
-					m.content = fb_message.body
+					m.content = fb_message["body"]
 					m.save
 
-					if(fb_message.created_time.to_i - unixtime_last_message < 60) #차이가 60초 이상인 것은 체크 하지 않는다. 무결성이 유지되었을 때 이것이 가능
-						if(fb_message.author_id == last_message_uid and fb_body == last_message.content)
+					if(fb_message["created_time"].to_i - unixtime_last_message < 60) #차이가 60초 이상인 것은 체크 하지 않는다. 무결성이 유지되었을 때 이것이 가능
+						if(fb_message["author_id"] == last_message_uid and fb_message["body"] == last_message.content)
 							break;
 						end
 						run_loop = false
 					end
-					prev_created_time = fb_message.created_time
+					prev_created_time = fb_message["created_time"]
 				end
 			end
 		end
