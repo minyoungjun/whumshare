@@ -1,5 +1,5 @@
 #encoding:utf-8
-require 'eventmachine'
+#require 'eventmachine'
 class Message < ActiveRecord::Base
 	attr_accessor :myuser
 
