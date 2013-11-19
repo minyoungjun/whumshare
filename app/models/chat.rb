@@ -40,26 +40,39 @@ class Chat < ActiveRecord::Base
 				user[:uid] = User.find(user[:id]).uid
 				users << user
 
+				get_fb_messages = Array.new
 
 				fb_messages.reverse.each do |fb_message|
 					puts "!!!#{fb_message.inspect}"
 
-					m = Message.new
-					if(fb_message["author_id"] == users[0][:uid] )
-						m.user_id = users[0][:id]
-					elsif(fb_message["author_id"] == users[1][:uid] )
-						m.user_id = users[1][:id]
-					end
-					m.content = fb_message["body"]
-					m.save
-
+					puts "time_stamp created_time#{fb_message["created_time"].to_i} unixtime_list_message #{unixtime_last_message}"
 					if(fb_message["created_time"].to_i - unixtime_last_message < 60) #차이가 60초 이상인 것은 체크 하지 않는다. 무결성이 유지되었을 때 이것이 가능
-						if(fb_message["author_id"] == last_message_uid and fb_message["body"] == last_message.content)
-							break;
+
+						puts "hoi_time_stamp created_time#{fb_message["created_time"].to_i} unixtime_list_message #{unixtime_last_message}"
+						puts "fb_message[author_id] #{fb_message["author_id"]} #{last_message_uid} #{fb_message["body"]} #{last_message.content}"
+						if(fb_message["author_id"].to_s == last_message_uid and fb_message["body"] == last_message.content)
+							run_loop = false
+							get_fb_messages.reverse.each do |fb_msg|
+								m = chat.messages.new
+								if(fb_msg["author_id"].to_s == users[0][:uid] )
+									m.user_id = users[0][:id]
+								elsif(fb_msg["author_id"].to_s == users[1][:uid] )
+									m.user_id = users[1][:id]
+								end
+								m.content = fb_msg["body"]
+								m.save
+							end
+							break
 						end
-						run_loop = false
 					end
 					prev_created_time = fb_message["created_time"]
+
+					get_fb_messages << fb_message
+
+					if(run_loop == false)
+						break
+					end
+
 				end
 			end
 		end

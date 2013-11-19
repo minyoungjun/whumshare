@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
 		Chat.sync_message(user.id)
 
     session[:user_id] = user.id
+    session[:noti_count] = 0
 		session[:category_id]=1 if session[:category_id].nil?
 
 		puts "category_id!!:#{session[:category_id]}";

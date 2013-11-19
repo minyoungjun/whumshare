@@ -1,11 +1,20 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-	before_filter :category_session
+	before_filter :category_session, :set_user_session
 	def category_session
 		if(session[:category_id].nil?)
 			session[:category_id]=1
 		end
 	end
+	def set_user_session
+		if(session[:user_id].nil?)
+			@user_id = 0
+		else
+			@user_id = session[:user_id]
+		end
+		
+	end
+	#TODO this action is for push noti test
 
 private
   def current_user

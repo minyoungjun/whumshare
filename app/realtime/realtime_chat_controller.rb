@@ -11,4 +11,10 @@ class RealtimeChatController < FayeRails::Controller
 			#ChatMessage.new(message['chat_id'], message['message'])
     end
   end
+
+  channel '/noti_push/*' do
+    subscribe do
+      puts "Received on #{channel}: #{inspect}"
+		end
+	end
 end

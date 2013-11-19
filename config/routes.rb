@@ -14,12 +14,12 @@ FacebookSend::Application.routes.draw do
 
   faye_server '/faye', timeout: 25 do
     map '/chat/*' => RealtimeChatController
+    map '/noti_push/*' => RealtimeChatController
     map default: :block
   end
 
   resources :chat
+  resources :noti_push
 	match 'chat', to:'chat#index'
 	match 'chat_main', to:'chat#index'
-
-
 end

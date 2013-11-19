@@ -17,9 +17,12 @@
 			</a>
 			<a href="/notification/all_noti">
 				<span class="badge">
-					<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="status" width="30">42
+					<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="status" width="30">
+					<span id="noti_count"></span>
 				</span>
 			</a>
+
+			<button id="push_noti">push_noti</button>
 		</div>
 		<div class="span3">
 			<a href="/user/my_info" class="btn"><%=current_user.name%></a>
@@ -61,13 +64,37 @@
 </div>
 
 <script>
-var search_div=false;
+	var search_div=false;
 	function open_search_modal(){
 		$("#search_div").show();
-		search_div=true;
+		search_div = true;
 	}
+
 	$(function(){
-		//$("#search_div").show();
+		(function() {
+			var client;
+			var noti_channel="/noti_push/<%=@user_id%>";
+			client = new Faye.Client('http://share.whum.net/faye');
+			client.subscribe(noti_channel, function(payload) {
+				alert("noti_push" + payload.type + payload.content);
+				return $("#noti_count").append(payload.content + "<br>");
+			});
+			//window.client = client;
+		}).call(this);
+
+
+		//TODO Delete this noti push test button
+		$("#push_noti").click(function(){
+			$.ajax({
+				url: "/notification/push_noti.json",
+				type: "POST",
+				success:function(data){
+					//alert("send push noti")
+				}
+			});
+		});
+
+		//글자 누르면 검색창 뜨는 것
 		$('#search_name').trigger(jQuery.Event('keypress', {which: 107}));
 		$(this).keydown(function(evt) {
 			if(search_div==true){
@@ -78,4 +105,5 @@ var search_div=false;
 			}
 		});
 	});
+
 </script>

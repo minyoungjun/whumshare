@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130924165456) do
+ActiveRecord::Schema.define(:version => 20131119160721) do
 
   create_table "address_zips", :force => true do |t|
     t.string   "code"
@@ -83,6 +83,15 @@ ActiveRecord::Schema.define(:version => 20130924165456) do
     t.integer  "buy_max_year"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "user_id",                     :null => false
+    t.integer  "type",       :default => 0,   :null => false
+    t.string   "content"
+    t.string   "readed",     :default => "0"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
   create_table "options", :force => true do |t|

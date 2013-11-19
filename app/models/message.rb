@@ -107,7 +107,7 @@ class Message < ActiveRecord::Base
 					puts "chat #{chats.inspect}"
 
 					#faye
-					client = Faye::Client.new('http://share.whum.net/faye')
+					faye_client = Faye::Client.new('http://share.whum.net/faye')
 					chats.each do |chat|
 						msg = chat.messages.new
 						msg.user_id = from_user.id
@@ -121,7 +121,7 @@ class Message < ActiveRecord::Base
 							:user_name => from_user.name,
 							:created_at => Time.now
 						}
-						client.publish("/chat/#{chat.id}", data)
+						faye_client.publish("/chat/#{chat.id}", data)
 					end
 				else
 					puts "uid that no in User.find_by_uid"
