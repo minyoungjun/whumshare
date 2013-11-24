@@ -18,7 +18,7 @@
 			<a href="/notification/all_noti">
 				<span class="badge">
 					<img src="https://app.divshot.com/img/placeholder-100x100.gif" alt="status" width="30">
-					<span id="noti_count"></span>
+					<span id="noti_count">0</span>
 				</span>
 			</a>
 
@@ -76,8 +76,10 @@
 			var noti_channel="/noti_push/<%=@user_id%>";
 			client = new Faye.Client('http://share.whum.net/faye');
 			client.subscribe(noti_channel, function(payload) {
-				alert("noti_push" + payload.type + payload.content);
-				return $("#noti_count").append(payload.content + "<br>");
+
+				var count = parseInt($("#noti_count").text()) + 1;
+				//alert("noti_push" + payload.type + payload.content);
+				return $("#noti_count").text(count);
 			});
 			//window.client = client;
 		}).call(this);
